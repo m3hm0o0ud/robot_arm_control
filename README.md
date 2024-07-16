@@ -1,4 +1,3 @@
-
 ---
 
 # Robot Arm Control Project
@@ -54,7 +53,57 @@ Before setting up the project, ensure you have the following installed:
    catkin_make
    ```
 
-### Step 3: Create Launch Files
+### Step 3: Create URDF File
+
+1. **Create the URDF directory and file**:
+   - Navigate to the package directory:
+     ```sh
+     cd ~/catkin_ws/src/robot_arm_control
+     ```
+   - Create the `urdf` directory and the URDF file:
+     ```sh
+     mkdir -p urdf
+     touch urdf/robot_arm.urdf
+     ```
+2. **Add content to the `robot_arm.urdf` file**:
+   ```xml
+   <?xml version="1.0"?>
+   <robot name="robot_arm">
+     <link name="base_link">
+       <visual>
+         <geometry>
+           <box size="0.5 0.5 0.1"/>
+         </geometry>
+       </visual>
+     </link>
+     <joint name="base_to_link1" type="fixed">
+       <parent link="base_link"/>
+       <child link="link1"/>
+     </joint>
+     <link name="link1">
+       <visual>
+         <geometry>
+           <box size="0.1 0.1 0.5"/>
+         </geometry>
+       </visual>
+     </link>
+     <joint name="link1_to_link2" type="continuous">
+       <parent link="link1"/>
+       <child link="link2"/>
+       <origin xyz="0 0 0.5"/>
+       <axis xyz="0 1 0"/>
+     </joint>
+     <link name="link2">
+       <visual>
+         <geometry>
+           <box size="0.1 0.1 0.5"/>
+         </geometry>
+       </visual>
+     </link>
+   </robot>
+   ```
+
+### Step 4: Create Launch Files
 
 1. **Create a launch file for the joint state publisher**:
    - Navigate to the launch directory:
@@ -132,31 +181,3 @@ For any inquiries or issues, please contact:
 - **mrcode10sam@gmail.com**
 
 ---
-
-### خطوات دفع المشروع إلى GitHub
-
-1. **تهيئة مستودع Git** (إذا لم يتم تهيئته مسبقًا):
-   ```sh
-   cd ~/catkin_ws
-   git init
-   ```
-
-2. **إضافة جميع الملفات إلى المستودع**:
-   ```sh
-   git add .
-   ```
-
-3. **عمل الالتزام الأول**:
-   ```sh
-   git commit -m "Initial commit with README"
-   ```
-
-4. **إضافة المستودع البعيد**:
-   ```sh
-   git remote add origin https://github.com/username/repository.git
-   ```
-
-5. **دفع الملفات إلى GitHub**:
-   ```sh
-   git push -u origin master
-   ```
